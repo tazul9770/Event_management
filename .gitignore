@@ -3,4 +3,4 @@ __pycache__/
 db.sqlite3
 css - Shortcut/
 node_modules/
-package.json/
+static/

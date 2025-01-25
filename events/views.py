@@ -68,6 +68,30 @@ def event_delete(request, id):
     else:
         messages.error(request, "Something error!")
         return redirect('event_list')
+    
+
+def view_event(request):
+    type = request.GET.get('type', 'all') 
+    base_query = Event.objects.select_related('category').prefetch_related('participants')
+    today = date.today() 
+
+    if type == 'upcoming':
+        events = base_query.filter(date__gte=today)
+    elif type == 'past':
+        events = base_query.filter(date__lt=today) 
+    elif type == 'all':
+        events = base_query.all()
+    else:
+        events = []
+
+    participants_count = Participant.objects.count() 
+    
+    context = {
+        "events": events,
+        "participants_count": participants_count,
+    }
+
+    return render(request, "view_event.html", context)
 
     
     

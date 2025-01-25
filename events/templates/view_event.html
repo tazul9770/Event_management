@@ -1,0 +1,19 @@
+{% extends "dashboard.html" %}
+{% block content2 %} 
+    <div class="max-w-5xl w-full">
+        <h2 class="text-3xl font-semibold text-gray-800 mb-6 text-center">Event List</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for event in events %}
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all transform hover:scale-105">
+                <h3 class="text-2xl font-bold text-gray-900">{{ event.name }}</h3>
+                <p class="text-gray-600 mt-2">{{ event.date }} at {{ event.time }}</p>
+                <p class="text-gray-500 mt-2">Category: <span class="font-medium">{{ event.category.name }}</span></p>
+                <a href="{% url 'event_detail' %}" class="text-blue-600 font-semibold hover:text-blue-800 hover:underline mt-3 block">View Details</a>
+            </div>
+            {% empty %}
+            <p class="text-gray-500 text-center col-span-2">No events found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content2 %}

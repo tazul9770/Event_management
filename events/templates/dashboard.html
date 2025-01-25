@@ -1,35 +1,41 @@
-{% extends 'base.html' %}
 
-{% block title %}Dashboard{% endblock %}
 
-{% block content %}
-<h1 class="text-3xl text-center font-bold mb-10"> Dashboard</h1>
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
 
-<!-- Stats Grid -->
-<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-    <div class="bg-blue-500 text-white p-4 rounded-lg">
-        <h2 class="text-xl">Total Events</h2>
-        <p class="text-2xl">{{ total_events }}</p>
-    </div>
-    <div class="bg-green-500 text-white p-4 rounded-lg">
-        <h2 class="text-xl">Total Participants</h2>
-        <p class="text-2xl">{{ total_participants }}</p>
-    </div>
-    <div class="bg-yellow-500 text-white p-4 rounded-lg">
-        <h2 class="text-xl">Upcoming Events</h2>
-        <p class="text-2xl">{{ upcoming_events }}</p>
-    </div>
-    <div class="bg-red-500 text-white p-4 rounded-lg">
-        <h2 class="text-xl">Past Events</h2>
-        <p class="text-2xl">{{ past_events }}</p>
-    </div>
-</div>
+    <div class="max-w-7xl w-full">
+        <h1 class="text-5xl text-center font-extrabold text-gray-900 mb-12">Dashboard</h1>
 
-<h2 class="text-2xl font-semibold mt-6">Today's Events</h2>
-<ul class="mt-4 list-disc pl-6">
-    {% for event in todays_events %}
-        <li>{{ event.name }} at {{ event.time }}</li>
-    {% endfor %} 
-</ul>
+        <!-- Stats Grid with Clickable Filters -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <a href="{% url 'view_event' %}?type=all" class="bg-blue-500 text-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 text-center">
+                <h2 class="text-2xl font-bold">Total Events</h2>
+                <p class="text-5xl mt-3">{{ total_events }}</p>
+            </a>
+            <a href="#" class="bg-green-500 text-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 text-center">
+                <h2 class="text-2xl font-bold">Total Participants</h2>
+                <p class="text-5xl mt-3">{{ total_participants }}</p>
+            </a>
+            <a href="{% url 'view_event' %}?type=upcoming" class="bg-yellow-500 text-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 text-center">
+                <h2 class="text-2xl font-bold">Upcoming Events</h2>
+                <p class="text-5xl mt-3">{{ upcoming_events }}</p>
+            </a>
+            <a href="{% url 'view_event' %}?type=past" class="bg-red-500 text-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 text-center">
+                <h2 class="text-2xl font-bold">Past Events</h2>
+                <p class="text-5xl mt-3">{{ past_events }}</p>
+            </a>
+        </div> 
 
-{% endblock %}
+        {% block content2 %}
+        {% endblock content2 %}
+
+</body>
+</html>
+
