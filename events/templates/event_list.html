@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Events</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    {% if messages %}
+    <div class="text-2xl text-center">
+        {% for message in messages %}
+        <div class="px-4 py-3 rounded-lg shadow-lg mb-3 
+                    {% if message.tags == 'success' %} bg-green-500 text-white {% endif %}
+                    {% if message.tags == 'error' %} bg-red-500 text-white {% endif %}
+                    {% if message.tags == 'warning' %} bg-yellow-500 text-black {% endif %}
+                    {% if message.tags == 'info' %} bg-blue-500 text-white {% endif %}">
+            <p class="font-semibold">{{ message }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="max-w-7xl mx-auto p-6">
+
+        <h1 class="text-4xl font-bold mb-8 text-center text-gray-800">All Event List</h1>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4">
+            {% for event in events %}
+            <div class="bg-gray-400 p-6 rounded-xl shadow-xl transform transition-all hover:scale-105 hover:shadow-2xl">
+                <h2 class="text-2xl font-semibold text-indigo-700">{{ event.name }}</h2>
+                <p class="text-black mt-2">Date: {{ event.date }}</p>
+                <p class="text-black mt-2">Time: {{ event.time }}</p>
+                <p class="text-black mt-2">Category: <span class="font-medium">{{ event.category.name }}</span></p>
+                
+                <div class="mt-4">
+                    <a href="{% url 'event_detail' %}" class="inline-block text-red-500 font-bold hover:text-blue-800 hover:underline">View Details</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+

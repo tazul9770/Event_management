@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl text-center font-bold mb-10"> Dashboard</h1>
+
+<!-- Stats Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="bg-blue-500 text-white p-4 rounded-lg">
+        <h2 class="text-xl">Total Events</h2>
+        <p class="text-2xl">{{ total_events }}</p>
+    </div>
+    <div class="bg-green-500 text-white p-4 rounded-lg">
+        <h2 class="text-xl">Total Participants</h2>
+        <p class="text-2xl">{{ total_participants }}</p>
+    </div>
+    <div class="bg-yellow-500 text-white p-4 rounded-lg">
+        <h2 class="text-xl">Upcoming Events</h2>
+        <p class="text-2xl">{{ upcoming_events }}</p>
+    </div>
+    <div class="bg-red-500 text-white p-4 rounded-lg">
+        <h2 class="text-xl">Past Events</h2>
+        <p class="text-2xl">{{ past_events }}</p>
+    </div>
+</div>
+
+<h2 class="text-2xl font-semibold mt-6">Today's Events</h2>
+<ul class="mt-4 list-disc pl-6">
+    {% for event in todays_events %}
+        <li>{{ event.name }} at {{ event.time }}</li>
+    {% endfor %} 
+</ul>
+
+{% endblock %}

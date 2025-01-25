@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Event Details{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <div class="max-w-7xl mx-auto p-6">
+
+        <p class="mt-4 text-2xl font-bold text-center text-gray-800">Event Details</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            {% for event in events %}
+            <div class="bg-gray-400 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all">
+                <h1 class="text-3xl font-bold text-gray-800">{{ event.name }}</h1>
+                <p class="text-white-600 mt-2 text-lg font-medium">{{ event.date }} at {{ event.time }}</p>
+                <p class="text-white-500 mt-2 text-md">Category: <span class="font-semibold">{{ event.category.name }}</span></p>
+                <p class="text-white-700 mt-4 text-lg">{{ event.description }}</p>
+
+                <h2 class="text-xl font-semibold text-gray-800 mt-6">Participants</h2>
+                <ul class="list-disc pl-6 text-gray-700">
+                    {% for participant in event.participants.all %}
+                        <li class="text-sm">{{ participant.name }} ({{ participant.email }})</li>
+                    {% endfor %}
+                </ul>
+
+                <div class="mt-4 flex justify-between">
+                    <a href="{% url 'event_update' event.id %}" class="inline-block bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition">Edit</a>
+                    <form action="{% url "event_delete" event.id %}" method = 'POST'>
+                        {% csrf_token %}
+                        <button type = 'submit' class="inline-block bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-500 transition">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
