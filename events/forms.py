@@ -3,6 +3,10 @@ from django import forms
 from events.models import Event, Participant
 
 class StyleFormMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.apply_styled_widgets()
+        
     default_classes = "border border-gray-500 w-full rounded-lg shadow-sm focus:border-rose-500 focus:ring-rose-500"
 
     def apply_styled_widgets(self):
@@ -44,8 +48,9 @@ class EventForm(StyleFormMixin, forms.ModelForm):
             'time': forms.TimeInput(attrs={'type': 'time'}),
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.apply_styled_widgets()
+    #akhanew use kora jabe mixin class ew use kora jabe
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.apply_styled_widgets()
 
 
