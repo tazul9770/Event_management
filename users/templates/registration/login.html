@@ -1,4 +1,4 @@
-{% comment %} <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,17 +8,24 @@
 <body>
     <h1>Welcome to Authentication System</h1>
     <div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-500{% endif %} ">{{message}}</div>
+            {% endfor %}
+        {% endif %}
         <form method='POST'>
             {% csrf_token %}
-            <input type="text" placeholder="Enter your username" name="username">
-            <input type="password" placeholder="Enter your password"name='password'>
+            {{form}}
             <button type="submit">Sign In</button>
         </form>
     </div>
 </body>
-</html> {% endcomment %}
+</html> 
 
-<!DOCTYPE html>
+
+
+
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -52,4 +59,4 @@
     </div>
 
 </body>
-</html>
+</html> {% endcomment %}

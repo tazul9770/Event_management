@@ -2,7 +2,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms 
 import re
-# from events.forms import StyleFormMixin
+from events.forms import StyleFormMixin
+from django.contrib.auth.forms import AuthenticationForm
 
 class RegisterForm(UserCreationForm): #here i use usercreation form
     class Meta:
@@ -16,7 +17,7 @@ class RegisterForm(UserCreationForm): #here i use usercreation form
 
 
 #custom resigtration form
-class CustomRegitrationForm(forms.ModelForm):
+class CustomRegitrationForm(StyleFormMixin, forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
 
@@ -31,7 +32,7 @@ class CustomRegitrationForm(forms.ModelForm):
             raise forms.ValidationError("Email all ready exists!")
         return email
     
-    def clean_password1(self):
+    def clean_password(self):
         password = self.cleaned_data.get('password')
         errors = []
 
@@ -67,3 +68,7 @@ class CustomRegitrationForm(forms.ModelForm):
             raise forms.ValidationError("Password do not match")
 
         return cleaned_data
+    
+class LoginForm(AuthenticationForm):
+    def __init__(self, *arg, **kwargs):
+        super().__init__(*arg, **kwargs)

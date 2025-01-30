@@ -1,6 +1,6 @@
 
 from django import forms
-from events.models import Event, Participant
+from events.models import Event, Participant, Category
 
 class StyleFormMixin:
     def __init__(self, *args, **kwargs):
@@ -48,9 +48,6 @@ class EventForm(StyleFormMixin, forms.ModelForm):
             'time': forms.TimeInput(attrs={'type': 'time'}),
         }
 
-    #akhanew use kora jabe mixin class ew use kora jabe
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.apply_styled_widgets()
+
 
 
