@@ -24,7 +24,10 @@
                 <h2 class="text-xl font-semibold text-gray-800 mt-6">Participants</h2>
                 <ul class="list-disc pl-6 text-gray-700">
                     {% for participant in event.participants.all %}
-                        <li class="text-sm">{{ participant.name }} ({{ participant.email }})</li>
+                        <li class="text-sm">Name: {{ participant.name }}</li>
+                        <li class = "text-sm">Email: {{ participant.email }}</li>
+                    {% empty %}
+                    <li>No participant found</li>
                     {% endfor %}
                 </ul>
 

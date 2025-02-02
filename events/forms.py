@@ -32,21 +32,39 @@ class StyleFormMixin:
                     'class': "space-y-2"
                 })
 
-class EventForm(StyleFormMixin, forms.ModelForm):
-    participants = forms.ModelMultipleChoiceField(
-        queryset=Participant.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False,
-        label="Participants"
-    )
+# class EventForm(StyleFormMixin, forms.ModelForm):
+#     participants = forms.ModelMultipleChoiceField(
+#         queryset=Participant.objects.all(),
+#         widget=forms.CheckboxSelectMultiple,
+#         required=False,
+#         label="Participants"
+#     )
 
+#     class Meta:
+#         model = Event
+#         fields = ['name', 'description', 'date', 'time', 'location', 'category', 'participants']
+#         widgets = {
+#             'date': forms.DateInput(attrs={'type': 'date'}),
+#             'time': forms.TimeInput(attrs={'type': 'time'}),
+#         }
+
+class EventForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Event
         fields = ['name', 'description', 'date', 'time', 'location', 'category', 'participants']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'time': forms.TimeInput(attrs={'type': 'time'}),
+            'participants': forms.CheckboxSelectMultiple()
         }
+
+    def save(self, commit=True):
+        event = super().save(commit=False)
+        if commit:
+            event.save()
+            self.save_m2m()  # Save many-to-many relationships
+        return event
+
 
 
 
