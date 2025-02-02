@@ -30,7 +30,7 @@ def dashboard(request):
     return render(request, "dashboard.html", context)
 
 def event_list(request):
-    events = Event.objects.select_related("category").prefetch_related("participants").all()
+    events = Event.objects.prefetch_related("participants").all()
     return render(request, "event_list.html", {"events": events})
 
 def create_event(request):
