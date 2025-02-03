@@ -5,10 +5,13 @@ from datetime import date
 from django.db.models import Q, Count, Max, Min, Avg
 from events.models import Event, Participant, Category
 from events.forms import EventForm
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+
 
 def home(request):
     return render(request, 'base.html')
 
+@login_required
 def dashboard(request):
     today = date.today()
 
@@ -29,10 +32,14 @@ def dashboard(request):
 
     return render(request, "dashboard.html", context)
 
+@login_required
+@permission_required('events.view_event', login_url='no_permission')
 def event_list(request):
     events = Event.objects.prefetch_related("participants").all()
     return render(request, "event_list.html", {"events": events})
 
+@login_required
+@permission_required('events.add_event', login_url='no_permission')
 def create_event(request):
     form = EventForm()
     if request.method == 'POST':
@@ -44,10 +51,14 @@ def create_event(request):
           
     return render(request, 'event_form.html', {'form': form})
 
+@login_required
+@permission_required('events.view_event', login_url='no_permission')
 def event_detail(request):
     events = Event.objects.select_related('category').prefetch_related('participants').all()
     return render(request, 'event_detail.html', {'events': events})
 
+@login_required
+@permission_required('events.change_event', login_url='no_permission')
 def event_update(request, id):
     event = Event.objects.get(id=id)
     form = EventForm(instance = event)
@@ -59,6 +70,8 @@ def event_update(request, id):
             return redirect('event_update', id)
     return render(request, "event_form.html", {"form":form})
 
+@login_required
+@permission_required('events.delete_event', login_url='no_permission')
 def event_delete(request, id):
     if request.method == 'POST':
         event = Event.objects.get(id=id)
@@ -70,6 +83,8 @@ def event_delete(request, id):
         return redirect('event_list')
     
 
+@login_required
+@permission_required('events.view_event', login_url='no_permission')
 def view_event(request):
     type = request.GET.get('type', 'all') 
     base_query = Event.objects.select_related('category').prefetch_related('participants')

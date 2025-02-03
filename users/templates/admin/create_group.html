@@ -1,0 +1,27 @@
+{% extends "admin/admin_dashboard.html" %}
+{% block content %}
+<div class="max-w-md mx-auto my-12 bg-white shadow-xl rounded-lg p-6 border border-gray-200">
+    <!-- Flash Messages -->
+    {% if messages %}
+    <ul class="mb-4">
+        {% for message in messages %}
+            <li class="bg-green-500 text-white text-sm font-medium px-4 py-2 rounded-lg shadow">
+                {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- Form -->
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Assign User Role</h2>
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-300">
+            {{ form }}
+        </div>
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-300">
+            Create Group
+        </button>
+    </form>
+</div>
+{% endblock content %}
