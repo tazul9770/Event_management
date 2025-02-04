@@ -1,6 +1,6 @@
 
 from django import forms
-from events.models import Event, Participant, Category
+from events.models import Event, Category
 
 class StyleFormMixin:
     def __init__(self, *args, **kwargs):
@@ -33,25 +33,26 @@ class StyleFormMixin:
                 })
 
 # class EventForm(StyleFormMixin, forms.ModelForm):
-#     participants = forms.ModelMultipleChoiceField(
-#         queryset=Participant.objects.all(),
-#         widget=forms.CheckboxSelectMultiple,
-#         required=False,
-#         label="Participants"
-#     )
-
 #     class Meta:
 #         model = Event
-#         fields = ['name', 'description', 'date', 'time', 'location', 'category', 'participants']
+#         fields = ['name', 'description', 'date', 'time', 'location', 'category', 'participants', 'asset']
 #         widgets = {
 #             'date': forms.DateInput(attrs={'type': 'date'}),
 #             'time': forms.TimeInput(attrs={'type': 'time'}),
+#             'participants': forms.CheckboxSelectMultiple()
 #         }
+
+#     def save(self, commit=True):
+#         event = super().save(commit=False)
+#         if commit:
+#             event.save()
+#             self.save_m2m() 
+#         return event
 
 class EventForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['name', 'description', 'date', 'time', 'location', 'category', 'participants']
+        fields = ['name', 'description', 'date', 'time', 'location', 'category', 'participants', 'image']  # Added 'asset'
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'time': forms.TimeInput(attrs={'type': 'time'}),
@@ -62,7 +63,7 @@ class EventForm(StyleFormMixin, forms.ModelForm):
         event = super().save(commit=False)
         if commit:
             event.save()
-            self.save_m2m()  # Save many-to-many relationships
+            self.save_m2m() 
         return event
 
 

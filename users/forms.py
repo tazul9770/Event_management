@@ -17,7 +17,7 @@ class RegisterForm(UserCreationForm): #here i use usercreation form
 
 
 #custom resigtration form
-class CustomRegitrationForm(StyleFormMixin, forms.ModelForm):
+class CustomRegitrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
 

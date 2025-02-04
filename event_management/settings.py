@@ -88,24 +88,24 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 # }
 
 # connect postgreSQL
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default=''),
-        'USER': config('DB_USER', default=''),
-        'PASSWORD': config('DB_PASSWORD', default=''),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', cast=int)
-    }
-}
-
-#when I deploy use this database
 # DATABASES = {
-#     'default': dj_database_url.config(
-#         default='postgresql://task_management_db_fk3o_user:sjbYAMYH61XbrhAdMv7A1apirqfRIe8D@dpg-cuaq0ktds78s739om1h0-a.oregon-postgres.render.com/task_management_db_fk3o',
-#         conn_max_age=600
-#         )
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('DB_NAME', default=''),
+#         'USER': config('DB_USER', default=''),
+#         'PASSWORD': config('DB_PASSWORD', default=''),
+#         'HOST': config('DB_HOST', default='localhost'),
+#         'PORT': config('DB_PORT', cast=int)
+#     }
 # }
+
+# when I deploy use this database
+DATABASES = {
+    'default': dj_database_url.config(
+        default='postgresql://task_management_db_fk3o_user:sjbYAMYH61XbrhAdMv7A1apirqfRIe8D@dpg-cuaq0ktds78s739om1h0-a.oregon-postgres.render.com/task_management_db_fk3o',
+        conn_max_age=600
+        )
+}
 
 
 # Password validation
@@ -147,6 +147,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

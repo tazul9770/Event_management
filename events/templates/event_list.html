@@ -6,45 +6,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Events</title>
     <script src="https://cdn.tailwindcss.com"></script> 
-</head>
-<body class="bg-gray-100">
+    <script>
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
 
+        function confirmDelete(eventId) {
+            if (confirm("Are you sure you want to delete this event?")) {
+                window.location.href = "/delete_event/" + eventId + "/";
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+            <h1 class="text-3xl font-extrabold text-gray-900">🎉 Event Management</h1>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-6">
+                <a href="{% url 'dashboard' %}" class="text-lg text-gray-700 font-semibold hover:text-blue-500 transition">Dashboard</a>
+                <a href="{% url 'event_list' %}" class="text-lg text-gray-700 font-semibold hover:text-blue-500 transition">Event List</a>
+                <a href="{% url 'home_page' %}" class="text-lg text-gray-700 font-semibold hover:text-blue-500 transition">Home</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-gray-900 text-3xl focus:outline-none" onclick="toggleMenu()">☰</button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden flex flex-col items-center bg-white shadow-md py-4">
+            <a href="{% url 'dashboard' %}" class="block py-3 text-gray-700 font-semibold hover:bg-blue-500 hover:text-white w-full text-center">Dashboard</a>
+            <a href="{% url 'event_list' %}" class="block py-3 text-gray-700 font-semibold hover:bg-blue-500 hover:text-white w-full text-center">Event List</a>
+            <a href="{% url 'home_page' %}" class="block py-3 text-gray-700 font-semibold hover:bg-blue-500 hover:text-white w-full text-center">Home</a>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
     {% if messages %}
-    <div class="text-2xl text-center">
+    <div class="max-w-4xl mx-auto mt-6">
         {% for message in messages %}
-        <div class="px-4 py-3 rounded-lg shadow-lg mb-3 
+        <div class="px-4 py-3 rounded-lg shadow-md mb-3 text-center font-semibold
                     {% if message.tags == 'success' %} bg-green-500 text-white {% endif %}
                     {% if message.tags == 'error' %} bg-red-500 text-white {% endif %}
                     {% if message.tags == 'warning' %} bg-yellow-500 text-black {% endif %}
                     {% if message.tags == 'info' %} bg-blue-500 text-white {% endif %}">
-            <p class="font-semibold">{{ message }}</p>
+            {{ message }}
         </div>
         {% endfor %}
     </div>
     {% endif %}
 
+    <!-- Event List Section -->
     <div class="max-w-7xl mx-auto p-6">
-
-        <h1 class="text-4xl font-bold mb-8 text-center text-gray-800">All Event List</h1>
+        <h1 class="text-4xl font-bold mb-8 text-center text-gray-800">All Events</h1>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4">
             {% for event in events %}
-            <div class="bg-gray-400 p-6 rounded-xl shadow-xl transform transition-all hover:scale-105 hover:shadow-2xl">
+            <div class="bg-white p-6 rounded-xl shadow-lg transition-all hover:scale-105 hover:shadow-2xl border border-gray-200">
                 <h2 class="text-2xl font-semibold text-indigo-700">{{ event.name }}</h2>
-                <p class="text-black mt-2">Date: {{ event.date }}</p>
-                <p class="text-black mt-2">Time: {{ event.time }}</p>
-                <p class="text-black mt-2">Category: <span class="font-medium">{{ event.category.name }}</span></p>
+                <p class="text-gray-700 mt-2"><strong>Date:</strong> {{ event.date }}</p>
+                <p class="text-gray-700 mt-2"><strong>Time:</strong> {{ event.time }}</p>
+                <p class="text-gray-700 mt-2"><strong>Category:</strong> <span class="font-medium">{{ event.category.name }}</span></p>
                 
+
+                <!-- Buttons for Edit and Delete -->
                 <div class="mt-4">
-                    <a href="{% url 'event_detail' %}" class="inline-block text-red-500 font-bold hover:text-blue-800 hover:underline">View Details</a>
+                    <!-- Edit Button -->
+                    <a href="{% url 'view_detail' event.id %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        View details
+                    </a>
                 </div>
+
+
             </div>
+            {% empty %}
+            <p class="text-gray-500 text-center col-span-4">No events available.</p>
             {% endfor %}
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 text-center py-6 mt-16">
+        <p>© 2025 Event Management. All rights reserved. 🎉</p>
+    </footer>
+
 </body>
 </html>
-
-
-

@@ -7,13 +7,11 @@ from django.contrib import messages
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Prefetch
+from events.models import Event, RSVP
 
 def is_admin(user):
     return user.groups.filter(name='Admin').exists()
 
-
-def home(request):
-    return render(request, 'registration/home.html')
 
 def sign_up(request):
     form = CustomRegitrationForm()
@@ -24,8 +22,8 @@ def sign_up(request):
             user.set_password(form.cleaned_data.get('password'))
             user.is_active = False
             user.save()
-            messages.success(request, "A Confirmation main send. Please check your email!")
-            return redirect('sign_in')
+            messages.success(request, "A Confirmation mail send. Please check your email!")
+            return redirect('sign_up')
         else:
             print('Form is not valid')
     return render(request, 'registration/register.html', {"form":form})
@@ -38,14 +36,14 @@ def sign_in(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('home')
+            return redirect('home_page')
     return render(request, 'registration/login.html', {"form": form}) 
 
 @login_required
 def sign_out(request):
     if request.method == 'POST':
         logout(request)
-        return redirect('sign_in') 
+        return redirect('home_page') 
 
 
 def activate_user(request, user_id, token):
@@ -104,3 +102,27 @@ def group_list(request):
     groups = Group.objects.prefetch_related('permissions').all()
     return render(request, 'admin/group_list.html', {"groups": groups})
 
+#RSVP 
+@login_required
+def rsvp_event(request, id):
+    event = Event.objects.prefetch_related('rsvps').select_related('category').get(id=id)
+    if request.method == "POST":
+        if not event.rsvps.filter(user=request.user).exists():
+            RSVP.objects.create(user=request.user, event=event)
+            messages.success(request, "You have successfully RSVP'd to the event!")
+        else:
+            messages.warning(request, "You have already RSVP'd to this event.")
+    return redirect('view_detail', id=event.id)
+
+@login_required
+def cancel_rsvp(request, id):
+    event = Event.objects.prefetch_related('rsvps').select_related('category').get(id=id)
+    
+    if request.method == "POST":
+        rsvp = RSVP.objects.filter(user=request.user, event=event)
+        if rsvp.exists():
+            rsvp.delete()
+            messages.success(request, "Your RSVP has been canceled.")
+        else:
+            messages.warning(request, "You have not RSVP'd to this event.")
+    return redirect('view_detail', id=event.id)

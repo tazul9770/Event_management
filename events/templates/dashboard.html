@@ -1,41 +1,108 @@
 
-{% load static %}
- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
 
-    <div class="max-w-7xl w-full">
-        <h1 class="text-5xl text-center font-extrabold text-gray-900 mb-12">Dashboard</h1>
-
-        <!-- Stats Grid with Clickable Filters -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            <a href="{% url 'view_event' %}?type=all" class="bg-blue-500 text-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 text-center">
-                <h2 class="text-2xl font-bold">Total Events</h2>
-                <p class="text-5xl mt-3">{{ total_events }}</p>
-            </a>
-            <a href="#" class="bg-green-500 text-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 text-center">
-                <h2 class="text-2xl font-bold">Total Participants</h2>
-                <p class="text-5xl mt-3">{{ total_participants }}</p>
-            </a>
-            <a href="{% url 'view_event' %}?type=upcoming" class="bg-yellow-500 text-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 text-center">
-                <h2 class="text-2xl font-bold">Upcoming Events</h2>
-                <p class="text-5xl mt-3">{{ upcoming_events }}</p>
-            </a>
-            <a href="{% url 'view_event' %}?type=past" class="bg-red-500 text-white p-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 text-center">
-                <h2 class="text-2xl font-bold">Past Events</h2>
-                <p class="text-5xl mt-3">{{ past_events }}</p>
-            </a>
-        </div> 
-
-        {% block content2 %}
-        {% endblock content2 %}
-
-</body>
-</html>
-
+  {% load static %}
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Event Management Dashboard</title>
+      <script src="https://cdn.tailwindcss.com"></script>
+      <script>
+          function toggleMenu() {
+              document.getElementById('mobile-menu').classList.toggle('hidden');
+          }
+      </script>
+  </head>
+  <body class="bg-gray-50 font-sans">
+  
+      <!-- Navbar -->
+      <nav class="bg-white shadow-md">
+          <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+              <h1 class="text-3xl font-extrabold text-gray-900">🎉 Event Management</h1>
+              
+              <!-- Desktop Menu -->
+              <div class="hidden md:flex space-x-6">
+                  <a href="{% url 'dashboard' %}" class="text-lg text-gray-700 font-semibold hover:text-blue-500 transition">Dashboard</a>
+                  <a href="{% url 'event_list' %}" class="text-lg text-gray-700 font-semibold hover:text-blue-500 transition">Event List</a>
+                  <a href="{% url 'create_event' %}" class="text-lg text-gray-700 font-semibold hover:text-blue-500 transition">Create Event</a>
+                  <a href="{% url 'home_page' %}" class="text-lg text-gray-700 font-semibold hover:text-blue-500 transition">Home</a>
+              </div>
+              
+              <!-- Mobile Menu Button -->
+              <button class="md:hidden text-gray-900 text-3xl focus:outline-none" onclick="toggleMenu()">☰</button>
+          </div>
+  
+          <!-- Mobile Menu -->
+          <div id="mobile-menu" class="hidden md:hidden flex flex-col items-center bg-white shadow-md py-4">
+              <a href="{% url 'dashboard' %}" class="block py-3 text-gray-700 font-semibold hover:bg-blue-500 hover:text-white w-full text-center">Dashboard</a>
+              <a href="{% url 'event_list' %}" class="block py-3 text-gray-700 font-semibold hover:bg-blue-500 hover:text-white w-full text-center">Event List</a>
+              <a href="{% url 'create_event' %}" class="text-lg text-gray-700 font-semibold hover:text-blue-500 transition">Create Event</a>
+              <a href="{% url 'home_page' %}" class="block py-3 text-gray-700 font-semibold hover:bg-blue-500 hover:text-white w-full text-center">Home</a>
+          </div>
+      </nav>
+  
+      <!-- Dashboard Section -->
+      <div class="max-w-7xl mx-auto px-6 py-16">
+          <h1 class="text-5xl text-center font-extrabold text-gray-900 mb-12">Dashboard</h1>
+  
+          <!-- Stats Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+              <a href="{% url 'view_event' %}?type=all" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-10 rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:scale-105 text-center">
+                  <h2 class="text-2xl font-bold">Total Events</h2>
+                  <p class="text-5xl mt-3">{{ total_events }}</p>
+              </a>
+              <a href="{% url 'view_event' %}?type=upcoming" class="bg-gradient-to-r from-yellow-500 to-yellow-700 text-white p-10 rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:scale-105 text-center">
+                  <h2 class="text-2xl font-bold">Upcoming Events</h2>
+                  <p class="text-5xl mt-3">{{ upcoming_events }}</p>
+              </a>
+              <a href="{% url 'view_event' %}?type=past" class="bg-gradient-to-r from-red-500 to-red-700 text-white p-10 rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:scale-105 text-center">
+                  <h2 class="text-2xl font-bold">Past Events</h2>
+                  <p class="text-5xl mt-3">{{ past_events }}</p>
+              </a>
+          </div>
+      </div>
+  
+      <!-- Event List Section -->
+      <div class="max-w-7xl mx-auto px-6 py-16">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">See List<h2>
+  
+          <!-- Responsive Table -->
+          <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+              <table class="min-w-full">
+                  <thead class="bg-gray-200">
+                      <tr>
+                          <th class="py-3 px-6 text-left text-lg text-gray-800">Event Name</th>
+                          <th class="py-3 px-6 text-left text-lg text-gray-800">Date</th>
+                          <th class="py-3 px-6 text-left text-lg text-gray-800">Location</th>
+                          <th class="py-3 px-6 text-left text-lg text-gray-800">Category</th>
+                          <th class="py-3 px-6 text-left text-lg text-gray-800">Participants</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for event in events %}
+                      <tr class="hover:bg-gray-100 transition">
+                          <td class="py-3 px-6">{{ event.name }}</td>
+                          <td class="py-3 px-6">{{ event.date }}</td>
+                          <td class="py-3 px-6">{{ event.location }}</td>
+                          <td class="py-3 px-6">{{ event.category.name }}</td>
+                          <td class="py-3 px-6">{{ event.participants.count }}</td>
+                      </tr>
+                      {% empty %}
+                      <tr>
+                          <td colspan="5" class="py-3 px-6 text-center text-gray-500">No events available</td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  
+      <!-- Footer -->
+      <footer class="bg-gray-900 text-gray-400 text-center py-6">
+          <p>© 2025 Event Management. All rights reserved. 🎉</p>
+      </footer>
+  
+  </body>
+  </html>
+  
