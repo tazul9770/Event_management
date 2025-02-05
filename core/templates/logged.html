@@ -7,8 +7,8 @@
         <div class="hidden md:flex space-x-4 items-center">
             {% if user.is_authenticated %}
                 {% if user.is_staff %}
-                    <a href="{% url 'admin_dashboard' %}" class="px-4 py-2 text-gray-700 rounded-lg hover:text-blue-500 transition">Admin Dashboard</a>
-                    <a href="{% url 'dashboard' %}" class="px-4 py-2 text-gray-700 rounded-lg hover:text-blue-500 transition">Organizer Dashboard</a>
+                    <a href="{% url 'admin_dashboard' %}" class="px-4 py-2 text-gray-700 rounded-lg hover:text-blue-500 transition text-2xl">Admin Dashboard</a>
+                    <a href="{% url 'dashboard' %}" class="px-4 py-2 text-gray-700 rounded-lg hover:text-blue-500 transition text-2xl">Organizer Dashboard</a>
                 {% else %}
                     <a href="{% url 'dashboard' %}" class="px-4 py-2 text-gray-700 rounded-lg hover:text-blue-500 transition">Organizer Dashboard</a>
                 {% endif %}
