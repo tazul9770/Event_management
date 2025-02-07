@@ -163,6 +163,6 @@ EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
-FRONTEND_URL = 'https://eventmanagemen.onrender.com'
+FRONTEND_URL = 'https://even-htst.onrender.com'
 
 LOGIN_URL = 'sign_in'
