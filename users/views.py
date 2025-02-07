@@ -10,7 +10,7 @@ from django.db.models import Prefetch
 from events.models import Event, RSVP
 
 def is_admin(user):
-    return user.groups.filter(name='Admin').exists()
+    return user.groups.filter(name='admin').exists()
 
 
 def sign_up(request):
