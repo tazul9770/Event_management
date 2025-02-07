@@ -18,7 +18,7 @@ class Event(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="events")
 
     participants = models.ManyToManyField(User, related_name="events")
-    image = models.ImageField(upload_to='event_images/', null=True, blank=True, default='default_image.jpg')
+    image = models.ImageField(upload_to='event_images/', null=True, blank=True, default='event_image/default_image.jpg')
 
     def __str__(self):
         return f"{self.name} - {self.date}"
